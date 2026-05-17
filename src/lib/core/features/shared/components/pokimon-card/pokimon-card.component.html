@@ -1,0 +1,9 @@
+<a [routerLink]="['/pokemon', pokemon.id]" class="block bg-white rounded-md shadow-sm p-3 text-center hover:shadow-md">
+  <div class="bg-gray-100 rounded p-2 flex justify-center items-center h-20">
+    <img (click)="openDetail($event)" [src]="pokemon.spriteUrl" [alt]="pokemon.name" class="h-12 w-12 object-contain cursor-pointer" />
+  </div>
+  <div class="text-xs font-semibold mt-2 capitalize">{{ pokemon.name }}</div>
+  <div class="mt-2 flex flex-wrap justify-center gap-1">
+    <span *ngFor="let t of pokemon.types" class="text-[10px] px-2 py-0.5 bg-green-100 text-green-800 rounded-full capitalize">{{ t.type.name }}</span>
+  </div>
+</a>

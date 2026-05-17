@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.pokemon-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+}
+
+@media (max-width: 1024px) {
+  .pokemon-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .pokemon-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .pokemon-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Card styling */
+.pokemon-card {
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 12px;
+  transition: 0.2s ease;
+}
+
+.pokemon-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+
+/* Image */
+.pokemon-img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  margin: 0 auto;
+}
+
+/* Name */
+.pokemon-name {
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 6px;
+  text-transform: capitalize;
+}
+
+/* Chips */
+.pokemon-types {
+  display: flex;
+  justify-content: center;
+  margin-top: 6px;
+  gap: 4px;
+}
+
+.type-chip {
+  font-size: 10px;
+  height: 22px;
+}

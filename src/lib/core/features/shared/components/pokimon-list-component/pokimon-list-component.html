@@ -1,0 +1,74 @@
+<div class="p-6 max-w-7xl mx-auto">
+
+  <!-- Header -->
+  <div class="flex items-center justify-between mb-6">
+
+    <div>
+      <h1 class="text-2xl font-bold text-gray-800">Pokemon</h1>
+      <p class="text-sm text-gray-500">
+        Pokemon List ({{ filteredList.length }} / {{ total }})
+      </p>
+    </div>
+
+    <!-- Search -->
+    <input
+  matInput
+  placeholder="Search by name or type"
+  [(ngModel)]="searchTerm"
+  (input)="onSearch()"
+/>
+
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="flex justify-center items-center p-8">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+
+  <!-- Error -->
+  <mat-card *ngIf="errorMessage && !loading" class="bg-red-50 border-l-4 border-red-500">
+    <mat-card-content>
+      <p class="text-red-700 font-medium">{{ errorMessage }}</p>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Empty State -->
+  <mat-card *ngIf="!loading && !errorMessage && !pokemonList.length" class="text-center py-8">
+    <mat-card-content>
+      <p class="text-gray-500">No Pokemon found</p>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Grid -->
+  <div
+    *ngIf="!loading && !errorMessage && pokemonList.length"
+    class="pokemon-grid"
+  >
+
+    <mat-card
+     *ngFor="let p of filteredList"
+      class="pokemon-card cursor-pointer"
+      [routerLink]="['/pokemon', p.id]"
+    >
+
+      <div class="relative h-20 flex items-center justify-center mb-2">
+        <img class="pokemon-img" [src]="p.spriteUrl" [alt]="p.name" />
+      </div>
+
+      <mat-card-content class="text-center px-0 pb-0">
+        <h3 class="text-sm font-semibold capitalize text-gray-800">{{ p.name }}</h3>
+
+        <div class="flex flex-wrap justify-center gap-1 mt-2">
+          <span
+            *ngFor="let type of p.types"
+            class="text-xs px-2 py-1 bg-gray-100 text-gray-700 rounded-full"
+          >
+            {{ type.type.name }}
+          </span>
+        </div>
+      </mat-card-content>
+
+    </mat-card>
+
+  </div>
+</div>

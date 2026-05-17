@@ -1,0 +1,52 @@
+<div class="detail-page">
+
+  <!-- Top bar -->
+  <header class="detail-header">
+    <button mat-icon-button (click)="goBack()" class="back-btn" aria-label="Back">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+    <span class="header-title">
+      Pokemon: {{ pokemon()?.name ?? '...' }}
+    </span>
+  </header>
+
+  <!-- Loading -->
+  <div *ngIf="loading()" class="center-state">
+    <mat-spinner diameter="48" color="primary"></mat-spinner>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error() && !loading()" class="center-state">
+    <mat-card class="error-card">
+      <mat-card-content>
+        <mat-icon color="warn">error_outline</mat-icon>
+        <p>{{ error() }}</p>
+        <button mat-stroked-button color="primary" (click)="goBack()">Go Back</button>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Detail card -->
+  <main *ngIf="pokemon() && !loading()" class="detail-content">
+    <mat-card class="pokemon-card">
+      <mat-card-content class="card-body">
+
+        <!-- Left column: identity -->
+        <section class="identity-col">
+          <div class="sprite-wrapper">
+            <img
+              [src]="pokemon()!.sprites.front_default"
+              [alt]="pokemon()!.name"
+              class="sprite"
+            />
+          </div>
+
+          <h2 class="pokemon-name">
+            {{ pokemon()!.name }}
+            <span class="pokemon-id">#{{ pokemon()!.id }}</span>
+          </h2>
+
+
+
+
+
