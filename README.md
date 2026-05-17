@@ -1,59 +1,65 @@
 # PokimonApp
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.10.
+PokimonApp is a small Angular 21 application that browses Pokémon details using server-side rendering, standalone components, and reactive Signals.
 
-## Development server
+## Run locally
 
-To start a local development server, run:
-
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Install dependencies:
 
 ```bash
-ng generate component component-name
+npm install
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Start the development server:
 
 ```bash
-ng generate --help
+npm start
 ```
 
-## Building
+Open `http://localhost:4200/` in your browser.
 
-To build the project run:
+## Build
+
+Create a production build:
 
 ```bash
-ng build
+npm run build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+Serve the SSR build locally after building:
 
 ```bash
-ng test
+npm run serve:ssr:pokimon-app
 ```
 
-## Running end-to-end tests
+## Testing
 
-For end-to-end (e2e) testing, run:
+Run unit tests:
 
 ```bash
-ng e2e
+npm test
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Design decisions
 
-## Additional Resources
+- Standalone components for better modularity and simpler imports.
+- Server-side rendering with `@angular/ssr` to support faster first paint and SEO.
+- Client hydration with `provideClientHydration(withEventReplay())`.
+- Route-based architecture, including a dedicated 404 page for unmatched routes.
+- Angular `Title` service used for dynamic detail page titles.
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Challenges solved
+
+- Added a not-found page instead of silent wildcard redirects.
+- Provided a server route footprint for SSR wildcard handling.
+- Updated the browser title to show the selected Pokémon name.
+
+## Remaining enhancements
+
+- Add caching for Pokémon list results to reduce duplicate API calls.
+- Create retry behavior for failed HTTP requests.
+
+## Notes
+
+- The app reads the PokeAPI base URL from `src/environments/environment.ts`.
+- The wildcard route is now handled by a dedicated `NotFound` component.

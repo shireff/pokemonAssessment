@@ -1,74 +1,75 @@
 <div class="p-6 max-w-7xl mx-auto">
-
   <!-- Header -->
-  <div class="flex items-center justify-between mb-6">
-
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
     <div>
-      <h1 class="text-2xl font-bold text-gray-800">Pokemon</h1>
+      <h1 class="text-2xl font-bold text-gray-800">Pokémon</h1>
       <p class="text-sm text-gray-500">
-        Pokemon List ({{ filteredList.length }} / {{ total }})
+        Showing {{ filteredList().length }} of {{ total() }} Pokémon
       </p>
     </div>
 
     <!-- Search -->
-    <input
-  matInput
-  placeholder="Search by name or type"
-  [(ngModel)]="searchTerm"
-  (input)="onSearch()"
-/>
-
+    <mat-form-field appearance="outline" class="w-full sm:w-72">
+      <mat-label>Search by name or type</mat-label>
+      <input
+        matInput
+        [value]="searchTerm()"
+        (input)="onSearch($any($event.target).value)"
+        placeholder="e.g. pikachu or fire"
+      />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
   </div>
 
   <!-- Loading -->
-  <div *ngIf="loading" class="flex justify-center items-center p-8">
-    <mat-spinner diameter="40"></mat-spinner>
+  <div *ngIf="loading()" class="flex justify-center items-center py-16">
+    <mat-spinner diameter="48"></mat-spinner>
   </div>
 
   <!-- Error -->
-  <mat-card *ngIf="errorMessage && !loading" class="bg-red-50 border-l-4 border-red-500">
+  <mat-card *ngIf="errorMessage() && !loading()" class="border-l-4 border-red-500 mb-6">
     <mat-card-content>
-      <p class="text-red-700 font-medium">{{ errorMessage }}</p>
+      <p class="text-red-700 font-medium">{{ errorMessage() }}</p>
     </mat-card-content>
   </mat-card>
 
   <!-- Empty State -->
-  <mat-card *ngIf="!loading && !errorMessage && !pokemonList.length" class="text-center py-8">
-    <mat-card-content>
-      <p class="text-gray-500">No Pokemon found</p>
-    </mat-card-content>
-  </mat-card>
+  <div
+    *ngIf="!loading() && !errorMessage() && filteredList().length === 0"
+    class="text-center py-16"
+  >
+    <mat-icon class="text-gray-300 text-6xl">catching_pokemon</mat-icon>
+    <p class="text-gray-500 mt-3">No Pokémon found</p>
+  </div>
 
   <!-- Grid -->
+  <div *ngIf="!loading() && !errorMessage() && filteredList().length > 0" class="pokemon-grid">
+    <app-pokimon-card
+      *ngFor="let p of filteredList(); trackBy: trackById"
+      [pokemon]="p"
+    ></app-pokimon-card>
+  </div>
+
+  <!-- Pagination -->
   <div
-    *ngIf="!loading && !errorMessage && pokemonList.length"
-    class="pokemon-grid"
+    *ngIf="!loading() && !errorMessage() && totalPages() > 1 && !searchTerm()"
+    class="flex items-center justify-center gap-4 mt-8"
   >
-
-    <mat-card
-     *ngFor="let p of filteredList"
-      class="pokemon-card cursor-pointer"
-      [routerLink]="['/pokemon', p.id]"
+    <button
+      mat-stroked-button
+      [disabled]="!hasPrev()"
+      (click)="prevPage()"
+      aria-label="Previous page"
     >
+      <mat-icon>chevron_left</mat-icon>
+      Prev
+    </button>
 
-      <div class="relative h-20 flex items-center justify-center mb-2">
-        <img class="pokemon-img" [src]="p.spriteUrl" [alt]="p.name" />
-      </div>
+    <span class="text-sm text-gray-600"> Page {{ currentPage() }} of {{ totalPages() }} </span>
 
-      <mat-card-content class="text-center px-0 pb-0">
-        <h3 class="text-sm font-semibold capitalize text-gray-800">{{ p.name }}</h3>
-
-        <div class="flex flex-wrap justify-center gap-1 mt-2">
-          <span
-            *ngFor="let type of p.types"
-            class="text-xs px-2 py-1 bg-gray-100 text-gray-700 rounded-full"
-          >
-            {{ type.type.name }}
-          </span>
-        </div>
-      </mat-card-content>
-
-    </mat-card>
-
+    <button mat-stroked-button [disabled]="!hasNext()" (click)="nextPage()" aria-label="Next page">
+      Next
+      <mat-icon>chevron_right</mat-icon>
+    </button>
   </div>
 </div>

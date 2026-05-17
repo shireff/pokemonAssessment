@@ -8,6 +8,7 @@ import { PokimonListItem } from '../../models/pokimon-list-item';
   standalone: true,
   imports: [RouterLink, NgFor],
   templateUrl: './pokimon-card.component.html',
+  styleUrl: './pokimon-card.component.scss',
 })
 export class PokimonCardComponent {
   @Input() pokemon!: PokimonListItem;
